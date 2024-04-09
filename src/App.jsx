@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import './App.css'
-
+import axios from "axios"
 function App() {
   const [livros, setLivros] = useState([]);
   const [novoLivro, setNovoLivro] = useState({
@@ -20,11 +19,11 @@ function App() {
       console.error('Erro ao buscar livros:', error);
     }
   };
-  
+
   useEffect(() => {
     fetchLivros();
   }, []);
-  
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setNovoLivro((prevLivro) => ({
@@ -48,7 +47,7 @@ function App() {
       console.error('Erro ao criar livro:', error);
     }
   };
-    
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8090/livros/${id}`);
@@ -57,7 +56,7 @@ function App() {
       console.error('Erro ao excluir livro:', error);
     }
   };
-  
+
   const handleUpdate = async (id, livroAtualizado) => {
     try {
       await axios.put(`http://localhost:8090/livros/${id}`, livroAtualizado);
@@ -66,85 +65,90 @@ function App() {
       console.error('Erro ao atualizar livro:', error);
     }
   };
-  
+
   return (
     <>
-  <div>
-    {/* Cabeçalho */}
-    <h1>Gerenciamento de Livros</h1>
+      <div>
+        {/* Cabeçalho */}
+        <h1>Gerenciamento de Livros</h1>
 
-    {/* Formulário de adição de livro */}
-    <form onSubmit={handleSubmit}>
-      {/* Campo para a isbn */}
-      <input
-        type="text"
-        name="isbn"
-        placeholder="isbn"
-        value={novoLivro.isbn}
-        onChange={handleInputChange}
-      />
-      {/* Campo para a titulo */}
-      <input
-        type="text"
-        name="titulo"
-        placeholder="Título"
-        value={novoLivro.titulo}
-        onChange={handleInputChange}
-      />
-       {/* Campo para a genero */}
-       <input
-        type="text"
-        name="genero"
-        placeholder="Gênero"
-        value={novoLivro.genero}
-        onChange={handleInputChange}
-      />
-      {/* Campo para o editora */}
-      <input
-        type="text"
-        name="editora"
-        placeholder="Editora"
-        value={novoLivro.editora}
-        onChange={handleInputChange}
-      />
-      {/* Campo para o autor */}
-      <input
-        type="number"
-        name="autor"
-        placeholder="Autor"
-        value={novoLivro.autor}
-        onChange={handleInputChange}
-      />
-      {/* Botão de envio do formulário */}
-      <button type="submit">Adicionar Livro</button>
-    </form>
+        {/* Formulário de adição de livro */}
+        <form onSubmit={handleSubmit}>
+          {/* Campo para a isbn */}
+          <input
+            type="text"
+            name="isbn"
+            placeholder="isbn"
+            value={novoLivro.isbn}
+            onChange={handleInputChange}
+          />
+          {/* Campo para a titulo */}
+          <input
+            type="text"
+            name="titulo"
+            placeholder="Título"
+            value={novoLivro.titulo}
+            onChange={handleInputChange}
+          />
+          {/* Campo para a genero */}
+          <input
+            type="text"
+            name="genero"
+            placeholder="Gênero"
+            value={novoLivro.genero}
+            onChange={handleInputChange}
+          />
+          {/* Campo para o editora */}
+          <input
+            type="text"
+            name="editora"
+            placeholder="Editora"
+            value={novoLivro.editora}
+            onChange={handleInputChange}
+          />
+          {/* Campo para o autor */}
+          <input
+            type="text"
+            name="autor"
+            placeholder="Autor"
+            value={novoLivro.autor}
+            onChange={handleInputChange}
+          />
+          {/* Botão de envio do formulário */}
+          <button type="submit">Adicionar Livro</button>
+        </form>
 
-    {/* Lista de livros */}
-    <ul>
-      {/* Mapeamento dos livros */}
-      {livros.map((livro) => (
-        <li key={livro.id}>
-          {/* Exibição dos detalhes do livro */}
-          {livro.isbn} - {livro.titulo} {livro.genero} {livro.editora} ({livro.autor})
-          
-          {/* Botão de exclusão */}
-          <button onClick={() => handleDelete(livro.id)}>Excluir</button>
-          
-          {/* Botão de atualização */}
-          <button
-            onClick={() =>
-              handleUpdate(livro.id, {
-                ...livro,
-                editora: 'Novo editora Atualizado', // Exemplo de atualização
-              })
-            }
-          >
-            Atualizar
-          </button>
-        </li>
-      ))}
-    </ul>
-  </div>
+        {/* Lista de livros */}
+        <ul>
+          {/* Mapeamento dos livros */}
+          {livros.map((livro) => (
+            <li key={livro.id}>
+              {/* Exibição dos detalhes do livro */}
+              {livro.isbn} - {livro.titulo} {livro.genero} {livro.editora} ({livro.autor})
+
+              {/* Botão de exclusão */}
+              <button onClick={() => handleDelete(livro.id)}>Excluir</button>
+
+              {/* Botão de atualização */}
+              <button
+                onClick={() =>
+                  handleUpdate(livro.id, {
+                    ...livro,
+                    isbn: novoLivro.isbn, // Exemplo de atualização
+                    titulo: novoLivro.titulo, // Exemplo de atualização
+                    genero: novoLivro.genero, // Exemplo de atualização
+                    editora: novoLivro.editora, // Exemplo de atualização
+                    autor: novoLivro.autor
+                    , // Exemplo de atualização
+                  })
+                }
+              >
+                Atualizar
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
 
     </>
   )
