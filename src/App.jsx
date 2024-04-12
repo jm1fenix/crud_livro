@@ -36,6 +36,10 @@ function App() {
     try {
       await axios.post('http://localhost:8090/livros', novoLivro);
       fetchLivros();
+      if (!novoLivro) {
+
+        
+      }
       setNovoLivro({
         isbn: '',
         titulo: '',
@@ -76,7 +80,7 @@ function App() {
         <form onSubmit={handleSubmit}>
           {/* Campo para a isbn */}
           <input
-            type="text"
+            type="number"
             name="isbn"
             placeholder="isbn"
             value={novoLivro.isbn}
@@ -114,6 +118,7 @@ function App() {
             value={novoLivro.autor}
             onChange={handleInputChange}
           />
+          <br /><br />
           {/* Botão de envio do formulário */}
           <button type="submit">Adicionar Livro</button>
         </form>
@@ -134,12 +139,11 @@ function App() {
                 onClick={() =>
                   handleUpdate(livro.id, {
                     ...livro,
-                    isbn: novoLivro.isbn, // Exemplo de atualização
-                    titulo: novoLivro.titulo, // Exemplo de atualização
-                    genero: novoLivro.genero, // Exemplo de atualização
-                    editora: novoLivro.editora, // Exemplo de atualização
-                    autor: novoLivro.autor
-                    , // Exemplo de atualização
+                    isbn: novoLivro.isbn !== "" ? novoLivro.isbn : livro.isbn,
+                    titulo: novoLivro.titulo !== "" ? novoLivro.titulo : livro.titulo,
+                    genero: novoLivro.genero !== "" ? novoLivro.genero : livro.genero,
+                    editora: novoLivro.editora !== "" ? novoLivro.editora : livro.editora,
+                    autor: novoLivro.autor !== "" ? novoLivro.autor : livro.autor
                   })
                 }
               >
